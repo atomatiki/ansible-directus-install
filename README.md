@@ -1,6 +1,6 @@
 # ansible-directus-install-roles
 
-Install docker in a remote linux {ubuntu} machine using ansible
+Install directus with docker in a remote linux {ubuntu} machine using ansible
 
 ## Usage 
 Add the following public key as an authorized key in your ubuntu machine. 
