@@ -92,6 +92,8 @@ jobs:
           directus_db_user: ${{ inputs.directus_db_user }}
           directus_db_password: ${{ inputs.directus_db_password }}
           directus_db: ${{ inputs.directus_db }}
+          directus_db_ssl: ${{ secrets.DIRECTUS_DB_SSL }}
+          directus_db_ssl_ca: ${{ secrets.DIRECTUS_DB_SSL_CA }}
           directus_admin_email: user@example.com
           directus_admin_password: changeme#
           docker_network: ${{ inputs.docker_network }}
