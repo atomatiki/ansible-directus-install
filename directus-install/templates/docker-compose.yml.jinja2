@@ -29,9 +29,9 @@ services:
       DB_PORT: {{ directus_db_port }}
       DB_DATABASE: {{ directus_db }}
       DB_USER: {{ directus_db_user }}
-      DB_PASSWORD: {{ directus_db_password }}
-      DB_SSL: {{ directus_db_ssl }}
-      DB_SSL_CA: {{ directus_db_ssl_ca }}
+      DB_PASSWORD: "{{ directus_db_password }}"
+      DB_SSL: "{{ directus_db_ssl }}"
+      DB_SSL_CA: "{{ directus_db_ssl_ca }}"
 
       CACHE_ENABLED: 'true'
       CACHE_STORE: 'redis'
