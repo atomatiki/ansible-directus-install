@@ -11,9 +11,9 @@ services:
     container_name: {{ directus_hostname }}
     hostname: {{ directus_hostname }}
     restart: unless-stopped
-    image: directus/directus:latest
-    ports:
-      - 8055:8055
+    image: directus/directus:9.0.0
+    expose:
+      - 8055
     volumes:
       - directus-uploads:/directus/uploads
       # If you want to load extensions from the host
@@ -30,8 +30,8 @@ services:
       DB_DATABASE: {{ directus_db }}
       DB_USER: {{ directus_db_user }}
       DB_PASSWORD: "{{ directus_db_password }}"
-      DB_SSL: "{{ directus_db_ssl }}"
-      DB_SSL_CA: "{{ directus_db_ssl_ca }}"
+      NODE_TLS_REJECT_UNAUTHORIZED: 0
+      DB_SSL__CA: "{{ directus_db_ssl_ca }}"
 
       CACHE_ENABLED: 'true'
       CACHE_STORE: 'redis'
