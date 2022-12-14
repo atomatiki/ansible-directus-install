@@ -3,10 +3,6 @@ name: Configure Directus
 on:
   workflow_dispatch:
     inputs:
-      TARGET_HOST:
-        type: string
-        required: true
-        default: host.site.atomatiki.tech
       directus_hostname:
         type: string
         required: true
@@ -15,12 +11,6 @@ on:
         type: string
         required: true
         default: udictihub-cms.site.atomatiki.tech
-      directus_key:
-        type: string
-        required: true
-      directus_secret:
-        type: string
-        required: true
       directus_db_host:
         type: string
         required: true
@@ -44,6 +34,9 @@ on:
         
 env:
   directus_db_client: pg
+  TARGET_HOST: host.site.atomatiki.tech
+  directus_key: 7O4o3nHTdL2Bj5aBJKihPFYhnsCbzRCbM2XI8N1f4Ol
+  directus_secret: SWEAx5xPJ83MNsDHUICpfGe+4aM0Olk+f+9MH
   
 jobs:
    ansible:
@@ -68,7 +61,7 @@ jobs:
         run: |
           cat << EOF > ./inventory.ini
           [webservers]
-          ${{ inputs.TARGET_HOST }}
+          ${{ env.TARGET_HOST }}
           EOF
       
       - name: Adding or Override Ansible Config File
@@ -91,8 +84,8 @@ jobs:
           ---
           directus_hostname: ${{ inputs.directus_domain }}
           directus_domain: ${{ inputs.directus_domain }}
-          directus_key: ${{ inputs.directus_key }}
-          directus_secret: ${{ inputs.directus_secret }}
+          directus_key: ${{ env.directus_key }}
+          directus_secret: ${{ env.directus_secret }}
           directus_db_host: ${{ inputs.directus_db_host }}
           directus_db_client: ${{ env.directus_db_client }}
           directus_db_port: ${{ inputs.directus_db_port }}
