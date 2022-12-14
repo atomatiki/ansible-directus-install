@@ -79,8 +79,8 @@ jobs:
 
       - name: Adding Ansible Variables
         run: |
-          mkdir -p ./directus-install/vars/
-          cat << EOF > devops/ansible/django-app/vars/main.yaml
+          mkdir -p directus-install/vars/
+          cat << EOF > directus-install/vars/main.yaml
           ---
           directus_hostname: ${{ inputs.directus_domain }}
           directus_domain: ${{ inputs.directus_domain }}
