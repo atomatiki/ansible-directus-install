@@ -89,7 +89,7 @@ jobs:
           mkdir -p ./directus-intall/vars/
           cat << EOF > devops/ansible/django-app/vars/main.yaml
           ---
-          directus_hostname: ${{ inputs.directus_hostname }}
+          directus_hostname: ${{ inputs.directus_domain }}
           directus_domain: ${{ inputs.directus_domain }}
           directus_key: ${{ inputs.directus_key }}
           directus_secret: ${{ inputs.directus_secret }}
