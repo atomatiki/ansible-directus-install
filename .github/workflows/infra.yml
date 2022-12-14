@@ -1,11 +1,7 @@
-name: Configure Docker
+name: Configure Directus
 
 on:
   workflow_dispatch:
-    secrets:
-      SSH_PRIVATE_KEY:
-        type: string
-        required: true
     inputs:
       TARGET_HOST:
         type: string
@@ -28,14 +24,10 @@ on:
       directus_db_host:
         type: string
         required: true
-      directus_db_client:
-        type: string
-        required: false
-        default: pg
       directus_db_port:
         type: string
         required: false
-        default: 5432
+        default: '5432'
       directus_db_user:
         type: string
         required: true
@@ -45,16 +37,14 @@ on:
       directus_db:
         type: string
         required: true
-      directus_admin_email:
-        type: string
-        required: true
-      directus_admin_password:
-        type: string
-        required: true
       docker_network:
         type: string
         required: true
         default: traefik_network
+        
+env:
+  directus_db_client: pg
+  
 jobs:
    ansible:
     runs-on: ubuntu-latest
@@ -104,13 +94,13 @@ jobs:
           directus_key: ${{ inputs.directus_key }}
           directus_secret: ${{ inputs.directus_secret }}
           directus_db_host: ${{ inputs.directus_db_host }}
-          directus_db_client: ${{ inputs.directus_db_client }}
+          directus_db_client: ${{ env.directus_db_client }}
           directus_db_port: ${{ inputs.directus_db_port }}
           directus_db_user: ${{ inputs.directus_db_user }}
           directus_db_password: ${{ inputs.directus_db_password }}
           directus_db: ${{ inputs.directus_db }}
-          directus_admin_email: ${{ inputs.directus_admin_email }}
-          directus_admin_password: ${{ inputs.directus_admin_password }}
+          directus_admin_email: user@example.com
+          directus_admin_password: changeme#
           docker_network: ${{ inputs.docker_network }}
           EOF
       
