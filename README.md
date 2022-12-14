@@ -15,3 +15,10 @@ Dispatch this workflow while passing your host IP as an input.
 > got to Actions > Configure directus > run workflow
 
 Pass your remote IP and other variables ... watch it run.
+
+On success use following credentials to login to your installation.
+
+``` js
+directus_admin_email: user@example.com
+directus_admin_password: changeme#
+```
