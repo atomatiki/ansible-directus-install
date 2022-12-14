@@ -1,4 +1,4 @@
-# ansible-docker-install-roles
+# ansible-directus-install-roles
 
 Install docker in a remote linux {ubuntu} machine using ansible
 
@@ -12,6 +12,6 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCug/Bna0CaHSWASX8VHKnguIhO4ucGZCv6Y2oD0gJw
 
 Dispatch this workflow while passing your host IP as an input.
 
-> got to Actions > Configure docker > run workflow
+> got to Actions > Configure directus > run workflow
 
-Pass your remote IP and watch it run.
+Pass your remote IP and other variables ... watch it run.

@@ -1,0 +1,54 @@
+---
+# tasks file for directus
+
+- name: Configuring directus
+    
+  # create data volume
+  # --
+  # 
+  - name: Create data Volume
+    community.docker.docker_volume:
+      name: "{{ directus_hostname }}-directus-data"
+    register: v_output
+    ignore_errors: true
+
+  - name: Debug output
+    ansible.builtin.debug:
+      var: v_output
+
+
+  # create uploads volume
+  # --
+  # 
+  - name: Create directus uploads Volume
+    community.docker.docker_volume:
+      name: "{{ directus_hostname }}-directus-uploads"
+    register: d_output
+    ignore_errors: true
+
+  - name: Debug output
+    ansible.builtin.debug:
+      var: d_output
+
+  # copy compose file to server
+  # --
+  # 
+  - name: Copy compose file to server
+    ansible.builtin.template:
+      src: "templates/docker-compose.yml.jinja2"
+      dest: "/root/.{{ directus_hostname }}-directus/docker-compose.yaml"
+
+
+  # deploy directus stack
+  # --
+  #
+  - name: Docker Compose Up 
+    community.docker.docker_compose:
+        project_src: ".{{ directus_hostname }}-directus"
+      
+    register: output
+
+
+  - name: Debug output
+    ansible.builtin.debug:
+      var: output

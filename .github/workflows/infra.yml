@@ -10,6 +10,51 @@ on:
       TARGET_HOST:
         type: string
         required: true
+        default: host.site.atomatiki.tech
+      directus_hostname:
+        type: string
+        required: true
+        default: udictihub_directus
+      directus_domain:
+        type: string
+        required: true
+        default: udictihub-cms.site.atomatiki.tech
+      directus_key:
+        type: string
+        required: true
+      directus_secret:
+        type: string
+        required: true
+      directus_db_host:
+        type: string
+        required: true
+      directus_db_client:
+        type: string
+        required: false
+        default: pg
+      directus_db_port:
+        type: string
+        required: false
+        default: 5432
+      directus_db_user:
+        type: string
+        required: true
+      directus_db_password:
+        type: string
+        required: true
+      directus_db:
+        type: string
+        required: true
+      directus_admin_email:
+        type: string
+        required: true
+      directus_admin_password:
+        type: string
+        required: true
+      docker_network:
+        type: string
+        required: true
+        default: traefik_network
 jobs:
    ansible:
     runs-on: ubuntu-latest
@@ -47,6 +92,26 @@ jobs:
           host_key_checking=False
           private_key_file = ./devops-key
           retries=2
+          EOF
+
+      - name: Adding Ansible Variables
+        run: |
+          mkdir -p ./directus-intall/vars/
+          cat << EOF > devops/ansible/django-app/vars/main.yaml
+          ---
+          directus_hostname: ${{ inputs.directus_hostname }}
+          directus_domain: ${{ inputs.directus_domain }}
+          directus_key: ${{ inputs.directus_key }}
+          directus_secret: ${{ inputs.directus_secret }}
+          directus_db_host: ${{ inputs.directus_db_host }}
+          directus_db_client: ${{ inputs.directus_db_client }}
+          directus_db_port: ${{ inputs.directus_db_port }}
+          directus_db_user: ${{ inputs.directus_db_user }}
+          directus_db_password: ${{ inputs.directus_db_password }}
+          directus_db: ${{ inputs.directus_db }}
+          directus_admin_email: ${{ inputs.directus_admin_email }}
+          directus_admin_password: ${{ inputs.directus_admin_password }}
+          docker_network: ${{ inputs.docker_network }}
           EOF
       
       - name: Run main playbook
