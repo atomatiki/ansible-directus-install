@@ -17,7 +17,7 @@ services:
     volumes:
       - directus-uploads:/directus/uploads
       # If you want to load extensions from the host
-      # - ./extensions:/directus/extensions
+      - ./extensions:/directus/extensions
     depends_on:
       - cache
     environment:
@@ -26,7 +26,8 @@ services:
 
       DB_CLIENT: {{ directus_db_client }}
       DB_HOST: {{ directus_db_host }}
-      DB_PORT: {{ directus_db_port }}
+      DB_PORT: {{ 
+        directus_db_port }}
       DB_DATABASE: {{ directus_db }}
       DB_USER: {{ directus_db_user }}
       DB_PASSWORD: {{ directus_db_password }}
@@ -51,8 +52,6 @@ services:
 
 
 volumes:
-  directus-data:
-    name: {{ directus_hostname }}-directus-data
   directus-uploads:
     name: {{ directus_hostname }}-directus-uploads
 
