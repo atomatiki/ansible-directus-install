@@ -32,6 +32,15 @@
       ansible.builtin.debug:
         var: d_output
 
+    # create the project directory
+    # --
+    # 
+    - name: Create a directory if it does not exist
+      ansible.builtin.file:
+        path: /root/.{{ directus_hostname }}-directus
+        state: directory
+        mode: '0755'
+        
     # copy compose file to server
     # --
     # 
