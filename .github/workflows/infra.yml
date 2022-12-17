@@ -82,7 +82,7 @@ jobs:
           mkdir -p directus-install/vars/
           cat << EOF > directus-install/vars/main.yaml
           ---
-          directus_hostname: ${{ inputs.directus_domain }}
+          directus_hostname: ${{ inputs.directus_hostname }}
           directus_domain: ${{ inputs.directus_domain }}
           directus_key: ${{ env.directus_key }}
           directus_secret: ${{ env.directus_secret }}
