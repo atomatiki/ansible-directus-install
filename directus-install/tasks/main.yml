@@ -37,7 +37,7 @@
     # 
     - name: Create a directory if it does not exist
       ansible.builtin.file:
-        path: /root/.{{ directus_domain }}-directus
+        path: "{{ user_home_dir }}/.{{ directus_domain }}-directus"
         state: directory
         mode: '0755'
         
@@ -47,7 +47,7 @@
     - name: Copy compose file to server
       ansible.builtin.template:
         src: "templates/docker-compose.yml.jinja2"
-        dest: "/root/.{{ directus_domain }}-directus/docker-compose.yaml"
+        dest: "{{ user_home_dir }}/.{{ directus_domain }}-directus/docker-compose.yaml"
 
 
     # deploy directus stack
