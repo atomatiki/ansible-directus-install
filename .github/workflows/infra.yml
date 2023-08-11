@@ -87,7 +87,7 @@ jobs:
           directus_hostname: ${{ inputs.directus_domain }}
           directus_domain: ${{ inputs.directus_domain }}
           directus_key: "${{ env.directus_key }}"
-          directus_secret: "${{ directus_secret }}"
+          directus_secret: "${{ env.directus_secret }}"
           directus_db_client: "pg"
           directus_db_connection_string: "${{ inputs.directus_db_connection_string }}"
           directus_db_ssl: ${{ secrets.DIRECTUS_DB_SSL }}
