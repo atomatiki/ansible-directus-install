@@ -5,9 +5,9 @@ Install directus with docker in a remote linux {ubuntu} machine using ansible.
 
 ## Usage 
 fork the repository to your account
-add a actions secret `SSH_DEVEOPS_KEY` containing a private key to connect with your server
+add a actions secret `SSH_PRIVATE_KEY` containing a private key to connect with your server
 
-Make sure you know the values below, the click run workflow under `Actions` > `workfows` > `Configure Directus` and fill in the correct values and click run.
+Make sure you know the values below, the click run workflow under tab `Actions` > `workfows` > `Configure Directus` and fill in the correct values and click run.
 
 ```
 directus_domain = <your domain name>
