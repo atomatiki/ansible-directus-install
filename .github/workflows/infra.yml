@@ -3,14 +3,9 @@ name: Configure Directus
 on:
   workflow_dispatch:
     inputs:
-      directus_hostname:
-        type: string
-        required: true
-        default: udictihub_directus
       directus_domain:
         type: string
         required: true
-        default: directus-cms.site.atomatiki.tech
       directus_db_connection_string:
         type: string
         required: true
