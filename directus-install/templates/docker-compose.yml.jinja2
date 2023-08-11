@@ -25,13 +25,9 @@ services:
       SECRET: {{ directus_secret }}
 
       DB_CLIENT: {{ directus_db_client }}
-      DB_HOST: {{ directus_db_host }}
-      DB_PORT: {{ directus_db_port }}
-      DB_DATABASE: {{ directus_db }}
-      DB_USER: {{ directus_db_user }}
-      DB_PASSWORD: "{{ directus_db_password }}"
+      DB_CONNECTION_STRING: {{ directus_db_connection_string }}
       NODE_TLS_REJECT_UNAUTHORIZED: 0
-      DB_SSL__CA: "{{ directus_db_ssl_ca }}"
+      DB_SSL__CA: "{{ directus_db_ssl_ca | default('NONE') }}"
 
       CACHE_ENABLED: 'true'
       CACHE_STORE: 'redis'
@@ -46,7 +42,7 @@ services:
 
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
-      - "traefik.enable=true" 
+      - "traefik.enable=true"
       - "traefik.http.routers.directus.rule=Host(`{{ directus_domain }}`)"
       - "traefik.http.routers.directus.entrypoints=websecure"
       - "traefik.http.routers.directus.tls.certresolver=production"
