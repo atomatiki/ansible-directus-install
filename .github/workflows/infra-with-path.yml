@@ -108,8 +108,8 @@ jobs:
       - name: Run main playbook
         run: |
           if [ "${{ inputs.ANSIBLE_BECOME_PASS }}" != "no-password" ]; then
-            ANSIBLE_CONFIG=ansible.cfg ansible-playbook --ask-become-pass main.yml
+            ANSIBLE_CONFIG=ansible.cfg ansible-playbook --ask-become-pass main-with-path.yml
           else
-            ANSIBLE_CONFIG=ansible.cfg ansible-playbook main.yml
+            ANSIBLE_CONFIG=ansible.cfg ansible-playbook main-with-path.yml
           fi
           
