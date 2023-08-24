@@ -43,6 +43,8 @@ env:
   directus_db_client: pg
   directus_key: 7O4o3nHTdL2Bj5aBJKihPFYhnsCbzRCbM2XI8N1f4Ol
   directus_secret: SWEAx5xPJ83MNsDHUICpfGe+4aM0Olk+f+9MH
+  ansible_playbook:  directus-install-with-path
+  ansible_playbook_mainfile: main-with-path.yml
 
 jobs:
    ansible:
@@ -87,8 +89,8 @@ jobs:
 
       - name: Adding Ansible Variables
         run: |
-          mkdir -p directus-install/vars/
-          cat << EOF > directus-install/vars/main.yaml
+          mkdir -p {{ env.ansible_playbook }}/vars/
+          cat << EOF > {{ env.ansible_playbook }}/vars/main.yaml
           ---
           directus_hostname: ${{ inputs.directus_hostname }}
           directus_domain: ${{ inputs.directus_domain }}
@@ -108,8 +110,8 @@ jobs:
       - name: Run main playbook
         run: |
           if [ "${{ inputs.ANSIBLE_BECOME_PASS }}" != "no-password" ]; then
-            ANSIBLE_CONFIG=ansible.cfg ansible-playbook --ask-become-pass main-with-path.yml
+            ANSIBLE_CONFIG=ansible.cfg ansible-playbook --ask-become-pass {{ env.ansible_playbook_mainfile }}
           else
-            ANSIBLE_CONFIG=ansible.cfg ansible-playbook main-with-path.yml
+            ANSIBLE_CONFIG=ansible.cfg ansible-playbook {{ env.ansible_playbook_mainfile }}
           fi
           
