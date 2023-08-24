@@ -39,7 +39,7 @@ services:
 
       # Make sure to set this in production
       # (see https://docs.directus.io/configuration/config-options/#general)
-      PUBLIC_URL: 'https://{{ directus_domain_path }}'
+      PUBLIC_URL: 'https://{{ directus_domain_path }}/{{ directus_domain_path }}'
 
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
@@ -49,7 +49,7 @@ services:
       - "traefik.http.routers.directus_{{ directus_domain | replace('.', '_')}}.tls.certresolver=production"
       - "traefik.http.routers.directus_{{ directus_domain | replace('.', '_')}}.middlewares=directus_{{ directus_domain | replace('.', '_')}}-stripprefix"
       - "traefik.http.middlewares.directus_{{ directus_domain | replace('.', '_')}}-stripprefix.stripprefix.prefixes=/studio"
-
+      - "traefik.http.middlewares.directus_{{ directus_domain | replace('.', '_')}}-stripprefix.stripprefix.forceSlash=false"
 
 # traefik_network
 # --
