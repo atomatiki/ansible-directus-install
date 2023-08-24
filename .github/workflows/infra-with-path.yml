@@ -89,8 +89,8 @@ jobs:
 
       - name: Adding Ansible Variables
         run: |
-          mkdir -p {{ env.ansible_playbook }}/vars/
-          cat << EOF > {{ env.ansible_playbook }}/vars/main.yaml
+          mkdir -p "${{ env.ansible_playbook }}/vars/"
+          cat << EOF > "${{ env.ansible_playbook }}/vars/main.yaml"
           ---
           directus_hostname: ${{ inputs.directus_hostname }}
           directus_domain: ${{ inputs.directus_domain }}
@@ -110,8 +110,8 @@ jobs:
       - name: Run main playbook
         run: |
           if [ "${{ inputs.ANSIBLE_BECOME_PASS }}" != "no-password" ]; then
-            ANSIBLE_CONFIG=ansible.cfg ansible-playbook --ask-become-pass {{ env.ansible_playbook_mainfile }}
+            ANSIBLE_CONFIG=ansible.cfg ansible-playbook --ask-become-pass "${{ env.ansible_playbook_mainfile }}"
           else
-            ANSIBLE_CONFIG=ansible.cfg ansible-playbook {{ env.ansible_playbook_mainfile }}
+            ANSIBLE_CONFIG=ansible.cfg ansible-playbook "${{ env.ansible_playbook_mainfile }}"
           fi
           
