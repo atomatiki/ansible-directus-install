@@ -4,40 +4,13 @@
 - name: Configuring directus
 
   block:
-      
-    # create data volume
-    # --
-    # 
-    - name: Create data Volume
-      community.docker.docker_volume:
-        name: "{{ directus_domain }}-directus-data"
-      register: v_output
-      ignore_errors: true
-
-    - name: Debug output
-      ansible.builtin.debug:
-        var: v_output
-
-
-    # create uploads volume
-    # --
-    # 
-    - name: Create directus uploads Volume
-      community.docker.docker_volume:
-        name: "{{ directus_domain }}-directus-uploads"
-      register: d_output
-      ignore_errors: true
-
-    - name: Debug output
-      ansible.builtin.debug:
-        var: d_output
 
     # create the project directory
     # --
     # 
     - name: Create a directory if it does not exist
       ansible.builtin.file:
-        path: "{{ user_home_dir }}/.{{ directus_domain }}-directus"
+        path: "{{ user_home_dir }}/directus/{{ directus_hostname }}"
         state: directory
         mode: '0755'
         
@@ -47,7 +20,7 @@
     - name: Copy compose file to server
       ansible.builtin.template:
         src: "templates/docker-compose.yml.jinja2"
-        dest: "{{ user_home_dir }}/.{{ directus_domain }}-directus/docker-compose.yaml"
+        dest: "{{ user_home_dir }}/directus/{{ directus_hostname }}/docker-compose.yaml"
 
 
     # deploy directus stack
@@ -55,7 +28,7 @@
     #
     - name: Docker Compose Up 
       community.docker.docker_compose:
-          project_src: ".{{ directus_domain }}-directus"
+          project_src: "directus/{{ directus_hostname }}"
         
       register: output
 

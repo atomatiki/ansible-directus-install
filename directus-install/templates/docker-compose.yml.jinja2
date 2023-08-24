@@ -12,13 +12,13 @@ services:
     container_name: {{ directus_hostname }}
     hostname: {{ directus_hostname }}
     restart: unless-stopped
-    image: directus/directus:9.0.0
+    image: directus/directus:10
     expose:
       - 8055
     volumes:
-      - directus-uploads:/directus/uploads
+      - ./uploads:/directus/uploads
       # If you want to load extensions from the host
-      # - ./extensions:/directus/extensions
+      - ./extensions:/directus/extensions
     depends_on:
       - cache
     environment:
@@ -47,11 +47,6 @@ services:
       - "traefik.http.routers.{{ directus_domain | replace('.', '_')}}.rule=Host(`{{ directus_domain }}`)"
       - "traefik.http.routers.{{ directus_domain | replace('.', '_')}}.entrypoints=websecure"
       - "traefik.http.routers.{{ directus_domain | replace('.', '_')}}.tls.certresolver=production"
-
-
-volumes:
-  directus-uploads:
-    name: {{ directus_domain }}-directus-uploads
 
 
 # traefik_network
