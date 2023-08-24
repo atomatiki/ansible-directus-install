@@ -47,9 +47,11 @@ services:
       - "traefik.http.routers.directus_{{ directus_domain | replace('.', '_')}}.rule=Host(`{{ directus_domain }}`) && PathPrefix(`/{{ directus_domain_path }}`)"
       - "traefik.http.routers.directus_{{ directus_domain | replace('.', '_')}}.entrypoints=websecure"
       - "traefik.http.routers.directus_{{ directus_domain | replace('.', '_')}}.tls.certresolver=production"
-      - "traefik.http.routers.directus_{{ directus_domain | replace('.', '_')}}.middlewares=directus_{{ directus_domain | replace('.', '_')}}-stripprefix"
-      - "traefik.http.middlewares.directus_{{ directus_domain | replace('.', '_')}}-stripprefix.stripprefix.prefixes=/studio"
-      - "traefik.http.middlewares.directus_{{ directus_domain | replace('.', '_')}}-stripprefix.stripprefix.forceSlash=false"
+      - "traefik.http.routers.directus_{{ directus_domain | replace('.', '_')}}.middlewares=directus_{{ directus_domain | replace('.', '_')}}-stripprefix,directus_{{ directus_domain | replace('.', '_')}}-redirectregex"
+      - "traefik.http.middlewares.directus_{{ directus_domain | replace('.', '_')}}-stripprefix.stripprefix.prefixes=/{{ directus_domain_path }}"
+      - "traefik.http.middlewares.directus_{{ directus_domain | replace('.', '_')}}-redirectregex.redirectregex.regex=^(.*)\\/{{ directus_domain_path }}$"
+      - "traefik.http.middlewares.directus_{{ directus_domain | replace('.', '_')}}-redirectregex.redirectregex.replacement=${1}/"
+      - "traefik.http.middlewares.directus_{{ directus_domain | replace('.', '_')}}-redirectregex.redirectregex.permanent=true"
 
 # traefik_network
 # --
