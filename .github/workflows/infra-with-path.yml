@@ -1,0 +1,115 @@
+name: Configure Directus ( Access under domain path )
+
+on:
+  workflow_dispatch:
+    inputs:
+      directus_hostname:
+        type: string
+        required: true
+      directus_domain:
+        type: string
+        required: true
+      directus_domain_path:
+        type: string
+        required: true
+      directus_db_connection_string:
+        type: string
+        required: true
+      docker_network:
+        type: string
+        required: true
+        default: traefik_network
+      TARGET_HOST:
+        type: string
+        required: true
+      SSH_PORT:
+        type: string
+        required: false
+        default: "22"
+      SSH_USER:
+        type: string
+        required: false
+        default: "root"
+      SSH_USER_HOME_DIR:
+        type: string
+        required: false
+        default: "/root"
+      ANSIBLE_BECOME_PASS:
+        type: string
+        required: false
+        default: "no-password"
+        
+env:
+  directus_db_client: pg
+  directus_key: 7O4o3nHTdL2Bj5aBJKihPFYhnsCbzRCbM2XI8N1f4Ol
+  directus_secret: SWEAx5xPJ83MNsDHUICpfGe+4aM0Olk+f+9MH
+
+jobs:
+   ansible:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      
+      - name: Add SSH Keys
+        run: |
+          cat << EOF > devops-key
+          ${{ secrets.SSH_PRIVATE_KEY }}
+          EOF
+      - name: Update devops private key permissions
+        run: |
+          chmod 400 devops-key
+      - name: Install Ansible
+        run: |
+          pip install ansible
+
+      - name: Adding or Override Ansible inventory File
+        run: |
+          cat << EOF > ./inventory.ini
+          [webservers]
+          ${{ inputs.TARGET_HOST }}
+          EOF
+      
+      - name: Adding or Override Ansible Config File
+        run: |
+          cat << EOF > ./ansible.cfg
+          [defaults]
+          ansible_python_interpreter='/usr/bin/python3'
+          deprecation_warnings=False
+          inventory=./inventory.ini
+          remote_user="${{ inputs.SSH_USER }}"
+          remote_tmp="${{ inputs.SSH_USER_HOME_DIR }}/.ansible/tmp"
+          host_key_checking=False
+          private_key_file = ./devops-key
+          retries=2
+          remote_port = ${{ inputs.SSH_PORT }}
+          EOF
+
+      - name: Adding Ansible Variables
+        run: |
+          mkdir -p directus-install/vars/
+          cat << EOF > directus-install/vars/main.yaml
+          ---
+          directus_hostname: ${{ inputs.directus_hostname }}
+          directus_domain: ${{ inputs.directus_domain }}
+          directus_domain_path: ${{ inputs.directus_domain_path }}
+          directus_key: "${{ env.directus_key }}"
+          directus_secret: "${{ env.directus_secret }}"
+          directus_db_client: "pg"
+          directus_db_connection_string: "${{ inputs.directus_db_connection_string }}"
+          directus_db_ssl: ${{ secrets.DIRECTUS_DB_SSL }}
+          directus_db_ssl_ca: "${{ secrets.DIRECTUS_DB_SSL_CA }}"
+          directus_admin_email: user@example.com
+          directus_admin_password: changeme#
+          docker_network: ${{ inputs.docker_network }}
+          user_home_dir: ${{ inputs.SSH_USER_HOME_DIR }}
+          EOF
+      
+      - name: Run main playbook
+        run: |
+          if [ "${{ inputs.ANSIBLE_BECOME_PASS }}" != "no-password" ]; then
+            ANSIBLE_CONFIG=ansible.cfg ansible-playbook --ask-become-pass main.yml
+          else
+            ANSIBLE_CONFIG=ansible.cfg ansible-playbook main.yml
+          fi
+          
