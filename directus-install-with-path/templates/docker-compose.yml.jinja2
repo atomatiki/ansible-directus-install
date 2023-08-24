@@ -44,9 +44,9 @@ services:
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
       - "traefik.enable=true"
-      - "traefik.http.routers.{{ directus_domain | replace('.', '_')}}.rule=Host(`{{ directus_domain }}`) && PathPrefix(`/{{ directus_domain_path }}`)"
-      - "traefik.http.routers.{{ directus_domain | replace('.', '_')}}.entrypoints=websecure"
-      - "traefik.http.routers.{{ directus_domain | replace('.', '_')}}.tls.certresolver=production"
+      - "traefik.http.routers.directus_{{ directus_domain | replace('.', '_')}}.rule=Host(`{{ directus_domain }}`) && PathPrefix(`/{{ directus_domain_path }}`)"
+      - "traefik.http.routers.directus_{{ directus_domain | replace('.', '_')}}.entrypoints=websecure"
+      - "traefik.http.routers.directus_{{ directus_domain | replace('.', '_')}}.tls.certresolver=production"
 
 
 # traefik_network
