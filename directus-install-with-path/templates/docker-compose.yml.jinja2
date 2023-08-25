@@ -12,7 +12,7 @@ services:
     container_name: {{ directus_hostname }}
     hostname: {{ directus_hostname }}
     restart: unless-stopped
-    image: directus/directus:10
+    image: directus/directus:10.4
     expose:
       - 8055
     volumes:
