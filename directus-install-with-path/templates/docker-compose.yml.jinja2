@@ -3,8 +3,8 @@ version: '3.8'
 services:
 
   cache:
-    container_name: "{{ directus_domain | replace('.', '_') }}_directus-cache"
-    hostname: "{{ directus_domain | replace('.', '_') }}_directus-cache"
+    container_name: "{{ directus_hostname | replace('.', '_') }}_directus-cache"
+    hostname: "{{ directus_hostname | replace('.', '_') }}_directus-cache"
     restart: unless-stopped
     image: redis:6
 
@@ -32,7 +32,7 @@ services:
 
       CACHE_ENABLED: 'true'
       CACHE_STORE: 'redis'
-      REDIS: "redis://{{ directus_domain | replace('.', '_') }}_directus-cache:6379"
+      REDIS: "redis://{{ directus_hostname | replace('.', '_') }}_directus-cache:6379"
       RATE_LIMITER_STORE: "redis"
       SYNCHRONIZATION_STORE: "redis"
       MESSENGER_STORE: "redis"
