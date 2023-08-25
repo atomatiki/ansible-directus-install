@@ -36,6 +36,7 @@ services:
       RATE_LIMITER_STORE: "redis"
       SYNCHRONIZATION_STORE: "redis"
       MESSENGER_STORE: "redis"
+      CACHE_AUTO_PURGE: 'true'
 
       ADMIN_EMAIL: {{ directus_admin_email }}
       ADMIN_PASSWORD: {{ directus_admin_password }}
